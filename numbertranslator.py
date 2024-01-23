@@ -37,8 +37,34 @@ def translate_to_100(n):
     unit = n % 10 # l'unità di n
     return DECADES[decade-2] + translate_to_20(unit)
 
-def translate_number(n):
-    return translate_to_100(n)
+def translate_to_1000(n):
+    if n < 100:
+        return translate_to_100(n)
+    if n > 999:
+        return "Out of range"
+    hundreds = n // 100
+    decades = n % 100
+    if hundreds > 1: # se le centinaia sono più di 1 traduci pure le centinaia
+        return translate_to_20(hundreds) + "cento" + translate_to_100(decades)
+    # altrimenti scrivi solo cento
 
-for x in range(1, 101):
+    return "cento" + translate_to_100(decades)
+    
+def translate_others(n):
+    if n < 100:
+        return translate_to_1000(n)
+    thousands = n // 1000
+    remaining = n % 1000
+    if thousands > 1:
+        return translate_to_1000(thousands) + "mila" + translate_to_1000(remaining)
+    return "mille" + translate_to_1000(remaining)
+
+def translate_number(n):
+    if (n == 0):
+        return "zero"
+    if (n < 0):
+        return "meno " + translate_number(-n)
+    return translate_others(n).replace('iu', 'u').replace()
+
+for x in range(1, 1000000):
     print(translate_number(x))
